@@ -1,4 +1,4 @@
-GottaGoFast:RegisterInstanceData(48, { -- Blackfathom Deeps
+DungeonSpeedRunner:RegisterInstanceData(48, { -- Blackfathom Deeps
     version = 1,
     
     name = "Blackfathom Deeps",
@@ -36,7 +36,7 @@ GottaGoFast:RegisterInstanceData(48, { -- Blackfathom Deeps
     },
 })
 
-GottaGoFast:RegisterInstanceData(90, { -- Gnomeregan
+DungeonSpeedRunner:RegisterInstanceData(90, { -- Gnomeregan
     version = 1,
     
     name = "Gnomeregan",
@@ -81,7 +81,7 @@ GottaGoFast:RegisterInstanceData(90, { -- Gnomeregan
     },
 })
 
-GottaGoFast:RegisterInstanceData(349, { -- Maraudon
+DungeonSpeedRunner:RegisterInstanceData(349, { -- Maraudon
     version = 1,
     
     name = "Maraudon",
@@ -126,7 +126,7 @@ GottaGoFast:RegisterInstanceData(349, { -- Maraudon
     }
 })
 
-GottaGoFast:RegisterInstanceData(389, { -- Ragefire Chasm
+DungeonSpeedRunner:RegisterInstanceData(389, { -- Ragefire Chasm
     version = 1,
     
     name = "Ragefire Chasm",
@@ -156,7 +156,7 @@ GottaGoFast:RegisterInstanceData(389, { -- Ragefire Chasm
     },
 })
 
-GottaGoFast:RegisterInstanceData(129, { -- Razorfen Downs
+DungeonSpeedRunner:RegisterInstanceData(129, { -- Razorfen Downs
     version = 1,
     
     name = "Razorfen Downs",
@@ -194,7 +194,7 @@ GottaGoFast:RegisterInstanceData(129, { -- Razorfen Downs
     },
 })
 
-GottaGoFast:RegisterInstanceData(47, { -- Razorfen Kraul
+DungeonSpeedRunner:RegisterInstanceData(47, { -- Razorfen Kraul
     version = 1,
     
     name = "Razorfen Kraul",
@@ -232,7 +232,7 @@ GottaGoFast:RegisterInstanceData(47, { -- Razorfen Kraul
     },
 })
 
-GottaGoFast:RegisterInstanceData(189, { -- Scarlet Monastery
+DungeonSpeedRunner:RegisterInstanceData(189, { -- Scarlet Monastery
     version = 1,
     
     name = "Scarlet Monastery",
@@ -285,7 +285,7 @@ GottaGoFast:RegisterInstanceData(189, { -- Scarlet Monastery
     },
 })
 
-GottaGoFast:RegisterInstanceData(33, { -- Shadowfang Keep
+DungeonSpeedRunner:RegisterInstanceData(33, { -- Shadowfang Keep
     version = 1,
     
     name = "Shadowfang Keep",
@@ -331,7 +331,7 @@ GottaGoFast:RegisterInstanceData(33, { -- Shadowfang Keep
     },
 })
 
-GottaGoFast:RegisterInstanceData(36, { -- Deadmines
+DungeonSpeedRunner:RegisterInstanceData(36, { -- Deadmines
     version = 1,
     
     name = "The Deadmines",
@@ -369,7 +369,7 @@ GottaGoFast:RegisterInstanceData(36, { -- Deadmines
     },
 })
 
-GottaGoFast:RegisterInstanceData(34, { -- Stockades
+DungeonSpeedRunner:RegisterInstanceData(34, { -- Stockades
     version = 1,
     
     name = "The Stockade",
@@ -403,7 +403,7 @@ GottaGoFast:RegisterInstanceData(34, { -- Stockades
     },
 })
 
-GottaGoFast:RegisterInstanceData(109, { -- Sunken Temple
+DungeonSpeedRunner:RegisterInstanceData(109, { -- Sunken Temple
     version = 1,
     
     name = "Sunken Temple",
@@ -429,7 +429,7 @@ GottaGoFast:RegisterInstanceData(109, { -- Sunken Temple
     },
 })
 
-GottaGoFast:RegisterInstanceData(70, { -- Uldaman
+DungeonSpeedRunner:RegisterInstanceData(70, { -- Uldaman
     version = 1,
     
     name = "Uldaman",
@@ -475,7 +475,7 @@ GottaGoFast:RegisterInstanceData(70, { -- Uldaman
     },
 })
 
-GottaGoFast:RegisterInstanceData(43, { -- Wailing Caverns
+DungeonSpeedRunner:RegisterInstanceData(43, { -- Wailing Caverns
     version = 1,
     
     name = "Wailing Caverns",
@@ -521,7 +521,7 @@ GottaGoFast:RegisterInstanceData(43, { -- Wailing Caverns
     },
 })
 
-GottaGoFast:RegisterInstanceData(209, { -- Zul'Farrak
+DungeonSpeedRunner:RegisterInstanceData(209, { -- Zul'Farrak
     version = 1,
     
     name = "Zul'Farrak",
@@ -558,4 +558,4 @@ GottaGoFast:RegisterInstanceData(209, { -- Zul'Farrak
     },
 })
 
-print("GottaGoFast: Loaded data for |cff999900Low-Level Dungeons|r")
+print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Low-Level Dungeons|r")

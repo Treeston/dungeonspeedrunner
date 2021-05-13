@@ -6,7 +6,7 @@
 
 ## Version: 0.0.1
 
-## Dependencies: DungeonSpeedRunner
+## Dependencies: DungeonSpeedRunner, DBM-Party-Classic
 ## LoadOnDemand: 1
 
 Data.lua

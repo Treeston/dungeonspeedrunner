@@ -289,7 +289,7 @@ function addon:DoAnnounce(channels, formatstring, ...)
         if channel == "PRINT" then
             print(msg)
         else
-            SendChatMessage("[GGF] "..msg, channel, nil, extra)
+            SendChatMessage("[DSR] "..msg, channel, nil, extra)
         end
     end
 end

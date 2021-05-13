@@ -73,7 +73,15 @@ function addon:RegisterInstanceData(instanceMapId, data)
         end
     end
     
-    data.routes = ValidateRoutes(data.routes)
+    if data.routes.required then
+        data.routes = { _only = data.routes }
+    end
+    
+    for _, routeData in pairs(data.routes) do
+        for _, splitLabel in ipairs(routeData) do
+            assert(data.splits[splitLabel], splitLabel)
+        end
+    end
     
     addon.InstanceData[instanceMapId] = data
 end
