@@ -1,0 +1,12 @@
+## Interface: 11307
+
+
+## Title: D|cffff5000ungeon|rS|cffff5000peed|rR|cffff5000unner|r - Low-Level Dungeons
+## Notes: Contains data for speedrunning Dungeons targeted at characters below Level 60
+
+## Version: 0.0.1
+
+## Dependencies: DungeonSpeedRunner
+## LoadOnDemand: 1
+
+Data.lua

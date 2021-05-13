@@ -1,0 +1,23 @@
+## Interface: 11306
+
+## Title: D|cffff5000ungeon|rS|cffff5000peed|rR|cffff5000unner|r
+## Notes: Speed-running timer for dungeons. Challenge yourself!
+
+## Version: 0.0.1
+
+## SavedVariables: DSR__DB
+## Dependencies: DBM-Core
+## OptionalDeps: Ace3, LibSharedMedia-3.0, LootRolls-Simple
+
+externals.xml
+
+components\Utils.lua
+
+components\Options.lua
+components\TablePool.lua
+components\TestMode.lua
+components\StatusWindow.lua
+components\Data.lua
+components\RouteChoice.lua
+
+DungeonSpeedRunner.lua

@@ -1,0 +1,14 @@
+package-as: DungeonSpeedRunner
+enable-nolib-creation: no
+
+externals:
+    externals/LibStub: https://repos.curseforge.com/wow/ace3/trunk/LibStub
+    externals/AceConfig-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
+    externals/AceDB-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
+    externals/AceDBOptions-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDBOptions-3.0
+    externals/LibSharedMedia-3.0: https://repos.curseforge.com/wow/libsharedmedia-3-0/trunk
+
+move-folders:
+    DungeonSpeedRunner/data_modules/Level60Dungeons: DungeonSpeedRunner_Level60Dungeons
+    DungeonSpeedRunner/data_modules/LowLevelDungeons: DungeonSpeedRunner_LowLevelDungeons
+    DungeonSpeedRunner/data_modules/VanillaRaids: DungeonSpeedRunner_VanillaRaids
