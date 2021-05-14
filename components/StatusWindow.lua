@@ -301,12 +301,13 @@ local function UpdateHorizontalExtraContent()
     
     anchorBackdrop:SetWidth(derivedRenderProps.extraInnerPadding + currentRenderProps.closeButtonSize + 2*currentRenderProps.extraPadding + currentRenderProps.extraBackdropInset)
     anchorBackdrop:SetHeight(currentRenderProps.closeButtonSize + 2*(currentRenderProps.extraPadding + currentRenderProps.extraBackdropInset))
+    anchorBackdrop:Show()
     
     closeButton:ClearAllPoints()
     closeButton:SetPoint(anchor, anchorBackdrop, anchor, sign*(currentRenderProps.extraPadding + currentRenderProps.extraBackdropInset), 0)
 end
 
-local function UpdateExtraAnchorOffsets()
+local function UpdateExtraAnchorOffset()
     local extraAnchorOffset = (currentRenderProps.mainBorderWidth + currentRenderProps.mainBackdropInset) / 2
     derivedRenderProps.extraInnerPadding = currentRenderProps.mainBorderWidth - extraAnchorOffset
     
@@ -728,7 +729,7 @@ function mainWindow:ImportRenderOptions(options)
     UpdateMainWindowHeight()
     UpdateMainTextAnchors()
     UpdateExtraWindowWidth()
-    UpdateExtraAnchorOffsets() -- this also calls vertical/horizontal content updaters
+    UpdateExtraAnchorOffset() -- this also calls vertical/horizontal content updaters
 end
 
 -- uninteresting setters (no derived properties)
@@ -834,6 +835,8 @@ end)
 mainWindow:SetScript("OnDragStop", function()
     mainWindow:StopMovingOrSizing()
     addon.opt.statusWindow.anchorPoint = {mainWindow:GetPoint(1)}
+    addon.opt.statusWindow.anchorPoint[2] = "UIParent"
+    addon:RefreshOptionsDialog("Layout")
 end)
 
 mainWindow:SetScript("OnMouseUp", function(_,btn)

@@ -54,7 +54,7 @@ local function SetCurrentRunRoute(runData, routeLabel)
             local splitLabel, splitTime = unpack(compareRun.splits[i])
             local thisMask = currentRun.splitToMaskIdx[splitLabel]
             if thisMask then
-                compareMask = compareMask + thisMask
+                compareMask = band(compareMask + thisMask, completionMask)
                 compareIdx[("%x:%s"):format(compareMask, splitLabel)] = splitTime
                 
                 local nextSplit = compareRun.splits[i+1]
@@ -192,27 +192,33 @@ local EMPTY = {}
 local function PredictNextSplit(override)
     assert(currentRun)
     local predictedNextSplit, predictedNextTime
-    local predictor = currentRun.comparePredictor
-    if predictor then
-        local ourPredictor = predictor[currentRun.currentMask]
-        if ourPredictor then
-            for i=0, #ourPredictor do
-                if (i==0) or currentRun.completedSplits[ourPredictor[i][1]] then
-                    predictedNextSplit, predictedNextTime = unpack(ourPredictor[i+1] or EMPTY)
+    
+    if currentRun.routeData then
+        local predictor = currentRun.comparePredictor
+        local effectiveMask = band(currentRun.currentMask, currentRun.completionMask)
+        if predictor then
+            local ourPredictor = predictor[effectiveMask]
+            if ourPredictor then
+                for i=0, #ourPredictor do
+                    if (i==0) or currentRun.completedSplits[ourPredictor[i][1]] then
+                        predictedNextSplit, predictedNextTime = unpack(ourPredictor[i+1] or EMPTY)
+                    end
                 end
             end
         end
-    end
-    
-    if override and not currentRun.completedSplits[override] then
-        if predictedNextSplit ~= override then
-            predictedNextSplit = override
-            if currentRun.completionMask and ((band(currentRun.currentMask, currentRun.completionMask) + currentRun.splitToMaskIdx[override]) == currentRun.completionMask) then
-                predictedNextTime = currentRun.compareTime
-            else
-                predictedNextTime = nil
+        
+        if override and not currentRun.completedSplits[override] then
+            if predictedNextSplit ~= override then
+                predictedNextSplit = override
+                if currentRun.completionMask and ((effectiveMask + currentRun.splitToMaskIdx[override]) == currentRun.completionMask) then
+                    predictedNextTime = currentRun.compareTime
+                else
+                    predictedNextTime = nil
+                end
             end
         end
+    else
+        predictedNextSplit = override
     end
 
     if predictedNextSplit then
@@ -343,7 +349,7 @@ local function SplitReached(split)
             )
         end
     else
-        compareTime = currentRun.compareIdx and currentRun.compareIdx[("%x:%s"):format(currentRun.currentMask, split)]
+        compareTime = currentRun.compareIdx and currentRun.compareIdx[("%x:%s"):format(band(currentRun.currentMask, currentRun.completionMask), split)]
         
         if compareTime and (relativeTime < compareTime) then
             addon:DoAnnounce(addon.opt.announce.bestSplit,
@@ -377,6 +383,7 @@ local function UndoSplit(split)
     if currentRun.isComplete then return end
     if not currentRun.completedSplits[split] then return end
     
+    currentRun.currentMask = currentRun.currentMask - currentRun.splitToMaskIdx[split]
     currentRun.completedSplits[split] = nil
     
     for i=#currentRun.splits, 1, -1 do

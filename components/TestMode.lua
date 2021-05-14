@@ -12,10 +12,17 @@ local function splitname(i)
     end
 end
 
+local function closeCallback()
+    addon.opt.testMode = false
+    addon.TestMode:DisableTestMode()
+    addon:RefreshOptionsDialog("")
+    print("|cffffd300DSR|r: Test Mode disabled, use |cffffd300/dsr|r to access settings!")
+end
+
 local function TestModeStart()
     assert(not addon.StatusWindow:IsShown())
-    addon.StatusWindow:SetCurrentInstance("Test mode -- move me!")
-    addon.StatusWindow:SetCloseButtonCallback(nil)
+    addon.StatusWindow:SetCurrentInstance("Test mode -- use |cffffd300/dsr|r for options!")
+    addon.StatusWindow:SetCloseButtonCallback(closeCallback)
     
     local t = math.random() * 15
     local offs = 0
@@ -70,4 +77,11 @@ end
 function addon.TestMode:DisableTestMode()
     wantTestMode = false
     TestModeUpdate()
+end
+
+function addon.TestMode:RefreshTestModeSplits()
+    if inTestMode then
+        TestModeStop()
+        TestModeStart()
+    end
 end

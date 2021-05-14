@@ -85,6 +85,9 @@ function addon:SetBackdropBorderTexture(f, texture)
 end
 
 function addon:SetBackdropBorderWidth(f, width)
+    if width <= 0 then for _,t in pairs(f.borders) do t:Hide() end return end
+    for _,t in pairs(f.borders) do t:Show() end
+
     local hasLeft = not not f.borders.LEFT
     local hasRight = not not f.borders.RIGHT
     local hasTop = not not f.borders.TOP
