@@ -77,15 +77,54 @@ local function SetCurrentRunRoute(runData, routeLabel)
 end
 
 local function DiscardCurrentRun()
-    if currentRun.hairTrigger then
-        eventFrame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-    end
+    eventFrame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    eventFrame:UnregisterEvent("GROUP_ROSTER_UPDATE")
+    eventFrame:UnregisterEvent("PLAYER_LEVEL_UP")
     addon.StatusWindow:Reset()
     addon.StatusWindow:Hide()
     addon.RouteChoice:CloseChoice()
     currentRun = nil
     
     addon.TestMode:AllowTestMode()
+end
+
+local function RecordPlayerLevel(level)
+    local fullName = ("%s-%s"):format(UnitName("player"), GetNormalizedRealmName())
+    local data = currentRun.players[fullName]
+    if data then
+        if data.maxLevel < level then
+            data.maxLevel = level
+        end
+    else
+        currentRun.players[fullName] = {
+            race = (select(3, UnitRace("player"))),
+            class = (select(2, UnitClass("player"))),
+            minLevel = level,
+            maxLevel = level,
+        }
+    end
+end
+
+local function RecordAllGroupMembers()
+    for i=1,GetNumGroupMembers() do
+        local name, _, _, level, _, classFileName = GetRaidRosterInfo(i)
+        if name then
+            local fullName = name:find("-") and name or (("%s-%s"):format(name,"-",GetNormalizedRealmName()))
+            local data = currentRun.players[fullName]
+            if data then
+                if data.maxLevel < level then
+                    data.maxLevel = level
+                end
+            else
+                currentRun.players[fullName] = {
+                    race = (select(3, UnitRace(name))),
+                    class = classFileName,
+                    minLevel = level,
+                    maxLevel = level,
+                }
+            end
+        end
+    end
 end
 
 local function SetupCurrentRun(instanceMapId, instanceData)
@@ -117,6 +156,7 @@ local function SetupCurrentRun(instanceMapId, instanceData)
         isComplete = false,
         startTime = nil,
         splits = {},
+        players = {},
         ranked = true,
     }
     eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
@@ -168,6 +208,7 @@ local function SaveCurrentRun()
         completionTimestamp = currentRun.completionTimestamp,
         dataVersion = currentRun.instanceData.version,
         splits = currentRun.splits,
+        players = currentRun.players,
     }
     
     -- savedRuns is always sorted (ascending run time)
@@ -231,11 +272,21 @@ local function hairTriggerHit()
     assert(currentRun.hairTrigger)
     eventFrame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     currentRun.hairTrigger = false
+    hairTriggerFrame:Hide()
+    
+    if IsInGroup() then
+        RecordAllGroupMembers()
+    else
+        RecordPlayerLevel(UnitLevel("player"))
+    end
+    eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
+    eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
+    
     currentRun.startTime = GetTime()
     addon.StatusWindow:ResetTimer()
     addon.StatusWindow:ResumeTimer()
+    
     PredictNextSplit()
-    hairTriggerFrame:Hide()
 end
 local function hairTriggerTest(puid,uid)
     if currentRun and currentRun.hairTrigger and UnitExists(puid) and UnitAffectingCombat(puid) then
@@ -258,7 +309,7 @@ hairTriggerFrame:SetScript("OnUpdate", function()
         hairTriggerTest("player","player")
         hairTriggerTest("pet","player")
         if IsInGroup() then
-            for i=1,GetNumGroupMembers() do
+            for i=1,GetNumSubgroupMembers() do
                 local uid = ("party"..i)
                 local puid = ("partypet"..i)
                 hairTriggerTest(uid,uid)
@@ -429,6 +480,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
                 hairTriggerHit()
             end
         end
+    elseif (event == "GROUP_ROSTER_UPDATE") then
+        RecordAllGroupMembers()
+    elseif (event == "PLAYER_LEVEL_UP") then
+        RecordPlayerLevel((...))
     end
 end)
 
