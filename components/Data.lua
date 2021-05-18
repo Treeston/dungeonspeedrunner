@@ -29,6 +29,27 @@ addon.InstanceData = {
     [ 509] = "DungeonSpeedRunner_VanillaRaids", -- AQ20
     [ 531] = "DungeonSpeedRunner_VanillaRaids", -- AQ40
     [ 533] = "DungeonSpeedRunner_VanillaRaids", -- Naxxramas
+    
+    [ 558] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Auchenai Crypts
+    [ 556] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Sethekk Halls
+    [ 555] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Shadow Labyrinth
+    [ 557] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Mana-Tombs
+    [ 547] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Slave Pens
+    [ 545] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Steamvault
+    [ 546] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Underbog
+    [ 269] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Black Morass
+    [ 560] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Old Hillsbrad
+    [ 542] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Blood Furnace
+    [ 543] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Hellfire Ramparts
+    [ 540] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Shattered Halls
+    [ 585] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Magisters' Terrace
+    [ 552] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Arcatraz
+    [ 553] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Botanica
+    [ 554] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Mechanar
+    
+    [ 532] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Karazhan
+    [ 544] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Magtheridon's Lair
+    [ 565] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Gruul's Lair
 }
 
 local function ValidateRoutes(routesTable)
@@ -64,8 +85,15 @@ function addon:RegisterInstanceData(instanceMapId, data)
             }
             
             if bossData.dbmModId then
-                tinsert(killSplit.triggers, { event = "DBM_KILL", modId = tostring(bossData.dbmModId) })
-                tinsert(pullSplit.triggers, { event = "DBM_PULL", modId = tostring(bossData.dbmModId) })
+                if type(bossData.dbmModId) == "table" then
+                    for _,modId in ipairs(bossData.dbmModId) do
+                        tinsert(killSplit.triggers, { event = "DBM_KILL", modId = tostring(modId) })
+                        tinsert(pullSplit.triggers, { event = "DBM_PULL", modId = tostring(modId) })
+                    end
+                else
+                    tinsert(killSplit.triggers, { event = "DBM_KILL", modId = tostring(bossData.dbmModId) })
+                    tinsert(pullSplit.triggers, { event = "DBM_PULL", modId = tostring(bossData.dbmModId) })
+                end
             end
             
             data.splits[label] = killSplit

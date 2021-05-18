@@ -1,4 +1,4 @@
-## Interface: 11306
+## Interface: 20501
 
 ## Title: D|cffff5000ungeon|rS|cffff5000peed|rR|cffff5000unner|r
 ## Notes: Speed-running timer for dungeons. Challenge yourself!
@@ -7,7 +7,7 @@
 
 ## SavedVariables: DSR__DB
 ## Dependencies: DBM-Core
-## OptionalDeps: Ace3, LibSharedMedia-3.0, LootRolls-Simple
+## OptionalDeps: Ace3, LibSharedMedia-3.0
 
 externals.xml
 
