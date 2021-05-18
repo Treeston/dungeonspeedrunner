@@ -206,7 +206,8 @@ local function SaveCurrentRun()
     local runData = {
         runTime = currentRun.completionTime,
         completionTimestamp = currentRun.completionTimestamp,
-        dataVersion = currentRun.instanceData.version,
+        addonDataVersion = 1,
+        instanceDataVersion = currentRun.instanceData.version,
         splits = currentRun.splits,
         players = currentRun.players,
     }
@@ -459,13 +460,13 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         if type(data) == "string" then
             local loaded, reason = LoadAddOn(data)
             if not loaded then
-                print(("Failed to load %s: %s"):format(data, _G["ADDON_"..reason]))
+                print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Failed to load |cffffd300%s|r: %s"):format(data, _G["ADDON_"..reason]))
                 return
             end
             data = addon.InstanceData[currentMap]
             assert(type(data) == "table")
         end
-        print("Entered instance map", currentMap, data)
+        print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Detected |cffffd300%s|r -- waiting for combat"):format(data.name))
         SetupCurrentRun(currentMap, data)
     elseif event == "PLAYER_REGEN_ENABLED" then
         if currentRun and currentRun.isComplete then
