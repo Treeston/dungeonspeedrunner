@@ -1,3 +1,6 @@
+local DIFFICULTY_NORMAL = 0
+local DIFFICULTY_TBC_HEROIC = 174
+
 DungeonSpeedRunner:RegisterInstanceData(558, { -- Auchenai Crypts
     version = 1,
     
@@ -43,13 +46,13 @@ DungeonSpeedRunner:RegisterInstanceData(556, { -- Sethekk Halls
     
     routes = {
         regular = {
-            name = "no Anzu",
+            choiceName = "no Anzu",
             required = { "syth", "ikiss" },
         },
         anzu = {
-            name = "with Anzu (Heroic only)",
+            choiceName = "with Anzu (Heroic only)",
             required = { "syth", "ikiss", "anzu" },
-            difficultyMask = 0x4,
+            enabledDifficulties = { [DIFFICULTY_TBC_HEROIC] = true },
         },
     },
 })
@@ -111,13 +114,13 @@ DungeonSpeedRunner:RegisterInstanceData(557, { -- Mana-Tombs
     
     routes = {
         regular = {
-            name = "no Yor",
+            choiceName = "no Yor",
             required = { "pandemonius", "tavarok", "shaffar" },
         },
         yor = {
-            name = "with Yor (Heroic only)",
+            choiceName = "with Yor (Heroic only)",
             required = { "pandemonius", "tavarok", "shaffar", "yor" },
-            difficultyMask = 0x4,
+            enabledDifficulties = { [DIFFICULTY_TBC_HEROIC] = true },
         },
     },
 })
@@ -337,12 +340,12 @@ DungeonSpeedRunner:RegisterInstanceData(540, { -- The Shattered Halls
         n = {
             name = nil,
             required = { "nethekurse", "omrogg", "bladefist" },
-            difficultyMask = 0x2,
+            enabledDifficulties = { [DIFFICULTY_NORMAL] = true },
         },
         h = {
             name = nil,
             required = { "nethekurse", "porung", "omrogg", "bladefist" },
-            difficultyMask = 0x4,
+            enabledDifficulties = { [DIFFICULTY_TBC_HEROIC] = true },
         },
     },
 })

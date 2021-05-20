@@ -59,7 +59,7 @@ function routeChoiceFrame:OfferChoice(currentRun, routes)
         frame.currentRun = currentRun
         frame.routeLabel = routeLabel
         frame.routeData = routeData
-        frame:SetText(routeData.name or "<unnamed>")
+        frame:SetText(routeData.choiceName or routeData.name or "<unnamed>")
     end
     for i=#routes+1, #routeChoiceFrame.frames do
         routeChoiceFrame.frames[i]:Hide()
