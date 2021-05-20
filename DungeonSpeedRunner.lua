@@ -187,7 +187,7 @@ local function SetupCurrentRun(instanceMapId, instanceData)
     
     local possibleRoutes = {}
     for label, routeData in pairs(instanceData.routes) do
-        if (not routeData.difficultyMask) or (band(blshift(1, difficultyId), routeData.difficultyMask) > 0) then
+        if (not routeData.enabledDifficulties) or routeData.enabledDifficulties[difficultyId] then
             tinsert(possibleRoutes, label)
         end
     end
