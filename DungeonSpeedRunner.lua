@@ -109,7 +109,7 @@ local function RecordAllGroupMembers()
     for i=1,GetNumGroupMembers() do
         local name, _, _, level, _, classFileName = GetRaidRosterInfo(i)
         if name then
-            local fullName = name:find("-") and name or (("%s-%s"):format(name,"-",GetNormalizedRealmName()))
+            local fullName = name:find("-") and name or (("%s-%s"):format(name, GetNormalizedRealmName()))
             local data = currentRun.players[fullName]
             if data then
                 if data.maxLevel < level then
@@ -451,10 +451,15 @@ local function UndoSplit(split)
 end
 
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+eventFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
 eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 local hostileSubEvents = {SWING_DAMAGE=true,RANGE_DAMAGE=true,SPELL_DAMAGE=true,SPELL_PERIODIC_DAMAGE=true,SWING_MISSED=true,SWING_ABSORBED=true,}
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
+        if IsInInstance() then
+            RequestRaidInfo()
+        end
+    elseif event == "UPDATE_INSTANCE_INFO" then
         if currentRun then return end
         local currentMap = (select(8, GetInstanceInfo()))
         local data = addon.InstanceData[currentMap]
