@@ -88,6 +88,19 @@ local function DiscardCurrentRun()
     addon.TestMode:AllowTestMode()
 end
 
+local function DismissButtonClicked()
+    if currentRun.hairTrigger or currentRun.isComplete or ((GetTime() - currentRun.startTime) > 20) then
+        DiscardCurrentRun()
+    else
+        currentRun.hairTrigger = true
+        currentRun.startTime = nil
+        eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+        hairTriggerFrame:Show()
+        addon.StatusWindow:Reset()
+        addon.StatusWindow:SetTimeElapsed(0)
+    end
+end
+
 local function RecordPlayerLevel(level)
     local fullName = ("%s-%s"):format(UnitName("player"), GetNormalizedRealmName())
     local data = currentRun.players[fullName]
@@ -179,7 +192,7 @@ local function SetupCurrentRun(instanceMapId, instanceData)
     addon.TestMode:DisallowTestMode()
 
     addon.StatusWindow:SetTimeElapsed(0)
-    addon.StatusWindow:SetCloseButtonCallback(DiscardCurrentRun)
+    addon.StatusWindow:SetCloseButtonCallback(DismissButtonClicked)
     addon.StatusWindow:SetLongFormat(false)
     CurrentRunUpdateNames()
     hairTriggerFrame:Show()
