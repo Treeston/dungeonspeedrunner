@@ -273,7 +273,7 @@ DungeonSpeedRunner:RegisterInstanceData(429, { -- Dire Maul
         },
         north = {
             name = "North",
-            required = { "moldar", "kreeg", "fengus", "skipkik", "kromcrush", "chorush", "gordok" },
+            required = { "moldar", "kreeg", "fengus", "slipkik", "kromcrush", "chorush", "gordok" },
         },
         tribute = {
             name = "Tribute",
