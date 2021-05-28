@@ -294,7 +294,7 @@ DungeonSpeedRunner:RegisterInstanceData(289, { -- Scholomance
             dbmModId = "DarkmasterGandling",
         },
         krastinov = {
-            name = "Doctor Theloen Krastinov",
+            name = "Doctor Theolen Krastinov",
             dbmModId = "DoctorTheolenKrastinov",
         },
         malicia = {
@@ -343,7 +343,7 @@ DungeonSpeedRunner:RegisterInstanceData(289, { -- Scholomance
         },
     },
     routes = {
-        required = { "kirtonos", "jandice", "rattlegore", "ras", "gandling" },
+        required = { "jandice", "rattlegore", "ras", "gandling" },
     },
 })
 
