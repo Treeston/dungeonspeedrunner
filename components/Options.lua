@@ -19,12 +19,12 @@ local defaults =
     profile = {
         testMode = true,
         
-        announce = {
-            bestSplit = { { "GROUP" } },
-            anySplit = { { "PRINT" } },
+        announceTo = {
+            bestSplit = { GROUP = true },
+            anySplit = { PRINT = true },
             
-            bestRunComplete = { { "GROUP" }, { "GUILD" } },
-            anyRunComplete = { { "GROUP" } },
+            bestRunComplete = { GROUP = true, GUILD = true },
+            anyRunComplete = { GROUP = true },
         },
 
         statusWindow = {
@@ -665,22 +665,10 @@ local announcementOptions = {
     name = "|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Announcements",
     type = "group",
     get = function(ctx)
-        local t = addon.opt.announce[ctx[#ctx-1]]
-        local v = ctx[#ctx]
-        for _,e in ipairs(t) do
-            if e[1] == v then
-                return true
-            end
-        end
-        return false
+        return addon.opt.announceTo[ctx[#ctx-1]][ctx[#ctx]]
     end,
     set = function(ctx,state)
-        local t = addon.opt.announce[ctx[#ctx-1]]
-        local v = ctx[#ctx]
-        for i=#t, 1, -1 do
-            if t[i][1] == v then tremove(t,i) end
-        end
-        if state then tinsert(t, {v}) end
+        addon.opt.announceTo[ctx[#ctx-1]][ctx[#ctx]] = state
     end,
     args = {
         bestRunComplete = {
@@ -761,6 +749,31 @@ listener:RegisterEvent("ADDON_LOADED")
 
 function addon:OnProfileEnable()
     addon.opt = addon.db.profile
+    
+    -- run updates
+    if addon.opt.announce then
+        local oldDefaults = {
+            bestSplit = { "GROUP" },
+            anySplit = { "PRINT" },
+            bestRunComplete = { "GROUP", "GUILD" },
+            anyRunComplete = { "GROUP" },
+        }
+        for key, values in pairs(addon.opt.announce) do
+            local newValues = {}
+            for k,v in pairs(oldDefaults[key]) do
+                newValues[k] = v
+            end
+            for k,v in pairs(values) do
+                newValues[k] = v[1]
+            end
+            local newSettings = addon.opt.announceTo[key]
+            newSettings.PRINT = false
+            newSettings.GROUP = false
+            newSettings.GUILD = false
+            for _,v in ipairs(newValues) do newSettings[v] = true end
+        end
+        addon.opt.announce = nil
+    end
 
     -- sequencing matters here!!
 
