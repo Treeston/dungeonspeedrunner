@@ -328,26 +328,28 @@ local WORSE_SPLIT = "%s: %s (%s)"
 local FIRST_SPLIT = "%s: %s"
 
 function addon:DoAnnounce(channels, formatstring, ...)
-    if not channels[1] then return end
-    
     local msg = formatstring:format(...)
-    for _, channelData in ipairs(channels) do
-        local channel, extra = unpack(channelData)
-        
-        if channel == "GROUP" then
-            if IsInRaid() then
-                channel = "RAID"
-            elseif IsInGroup() then
-                channel = "PARTY"
-            else
-                channel = "PRINT"
+    for channel, extra in pairs(channels) do
+        if extra then
+            if channel == "GROUP" then
+                if IsInRaid() then
+                    channel = "RAID"
+                elseif IsInGroup() then
+                    channel = "PARTY"
+                else
+                    channel = "PRINT"
+                end
+            elseif channel == "GUILD" then
+                if not C_GuildInfo.CanSpeakInGuildChat() then
+                    channel = "NONE"
+                end
             end
-        end
-        
-        if channel == "PRINT" then
-            print(msg)
-        else
-            SendChatMessage("[DSR] "..msg, channel, nil, extra)
+            
+            if channel == "PRINT" then
+                print(msg)
+            elseif channel ~= "NONE" then
+                SendChatMessage("[DSR] "..msg, channel)
+            end
         end
     end
 end
@@ -380,21 +382,21 @@ local function SplitReached(split)
         compareTime = currentRun.compareTime
         
         if compareTime and (relativeTime < compareTime) then
-            addon:DoAnnounce(addon.opt.announce.bestRunComplete,
+            addon:DoAnnounce(addon.opt.announceTo.bestRunComplete,
                 BEST_COMPLETE,
                 currentRun.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
                 addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
             )
         elseif compareTime then
-            addon:DoAnnounce(addon.opt.announce.anyRunComplete,
+            addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
                 WORSE_COMPLETE,
                 currentRun.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
                 addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
             )
         else
-            addon:DoAnnounce(addon.opt.announce.anyRunComplete,
+            addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
                 FIRST_COMPLETE,
                 currentRun.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat)
@@ -404,21 +406,21 @@ local function SplitReached(split)
         compareTime = currentRun.compareIdx and currentRun.compareIdx[("%x:%s"):format(band(currentRun.currentMask, currentRun.completionMask), split)]
         
         if compareTime and (relativeTime < compareTime) then
-            addon:DoAnnounce(addon.opt.announce.bestSplit,
+            addon:DoAnnounce(addon.opt.announceTo.bestSplit,
                 BEST_SPLIT,
                 splitData.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
                 addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
             )
         elseif compareTime then
-            addon:DoAnnounce(addon.opt.announce.anySplit,
+            addon:DoAnnounce(addon.opt.announceTo.anySplit,
                 WORSE_SPLIT,
                 splitData.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
                 addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
             )
         else
-            addon:DoAnnounce(addon.opt.announce.anySplit,
+            addon:DoAnnounce(addon.opt.announceTo.anySplit,
                 FIRST_SPLIT,
                 splitData.chatName,
                 addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat)
