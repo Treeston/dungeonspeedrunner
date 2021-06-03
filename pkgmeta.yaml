@@ -12,8 +12,6 @@ move-folders:
     DungeonSpeedRunner/data_modules/Level60Dungeons: DungeonSpeedRunner_Level60Dungeons
     DungeonSpeedRunner/data_modules/LowLevelDungeons: DungeonSpeedRunner_LowLevelDungeons
     DungeonSpeedRunner/data_modules/VanillaRaids: DungeonSpeedRunner_VanillaRaids
-    DungeonSpeedRunner/data_modules/BurningCrusadeDungeons: DungeonSpeedRunner_BurningCrusadeDungeons
-    DungeonSpeedRunner/data_modules/BurningCrusadeRaids: DungeonSpeedRunner_BurningCrusadeRaids
 
 ignore:
     - data_modules
