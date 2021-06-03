@@ -12,3 +12,9 @@ move-folders:
     DungeonSpeedRunner/data_modules/Level60Dungeons: DungeonSpeedRunner_Level60Dungeons
     DungeonSpeedRunner/data_modules/LowLevelDungeons: DungeonSpeedRunner_LowLevelDungeons
     DungeonSpeedRunner/data_modules/VanillaRaids: DungeonSpeedRunner_VanillaRaids
+
+ignore:
+    - data_modules
+
+required-dependencies:
+    - 3358-deadly-boss-mods

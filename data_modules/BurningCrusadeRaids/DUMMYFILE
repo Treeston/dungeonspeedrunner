@@ -1,0 +1,4 @@
+This file is here because git will not commit empty directories.
+I want the directory structure to stay intact across branches, otherwise git breaks my junction setup whenever I switch.
+
+This file should not be packaged. If you see it in your Curseforge download, that is a bug. You should tell me about it.
