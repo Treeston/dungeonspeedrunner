@@ -101,8 +101,9 @@ local function DismissButtonClicked()
     end
 end
 
+local ourRealm
 local function RecordPlayerLevel(level)
-    local fullName = ("%s-%s"):format(UnitName("player"), GetNormalizedRealmName())
+    local fullName = ("%s-%s"):format(UnitName("player"), ourRealm or "")
     local data = currentRun.players[fullName]
     if data then
         if data.maxLevel < level then
@@ -122,7 +123,7 @@ local function RecordAllGroupMembers()
     for i=1,GetNumGroupMembers() do
         local name, _, _, level, _, classFileName = GetRaidRosterInfo(i)
         if name then
-            local fullName = name:find("-") and name or (("%s-%s"):format(name, GetNormalizedRealmName()))
+            local fullName = name:find("-") and name or (("%s-%s"):format(name, ourRealm or ""))
             local data = currentRun.players[fullName]
             if data then
                 if data.maxLevel < level then
@@ -469,6 +470,7 @@ eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 local hostileSubEvents = {SWING_DAMAGE=true,RANGE_DAMAGE=true,SPELL_DAMAGE=true,SPELL_PERIODIC_DAMAGE=true,SWING_MISSED=true,SWING_ABSORBED=true,}
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
+        if not ourRealm then ourRealm = GetNormalizedRealmName() end
         if IsInInstance() then
             RequestRaidInfo()
         end
