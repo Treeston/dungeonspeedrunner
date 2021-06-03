@@ -1,0 +1,7 @@
+This file exists on both branches to stop git from deleting the BC data_modules subdirectories on branch switch.
+(If it does that, it breaks my junction setup which lets the addon load on my client.)
+
+This file should never be packaged by Curseforge. If it is, that's a bug. Tell me about it.
+
+If you see this file in the repository, thanks for caring enough to check it out.
+I hope you have a lovely day!
