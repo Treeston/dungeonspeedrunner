@@ -95,16 +95,8 @@ local function DiscardCurrentRun()
 end
 
 local function DismissButtonClicked()
-    if currentRun.hairTrigger or currentRun.isComplete or ((GetTime() - currentRun.startTime) > 20) then
-        DiscardCurrentRun()
-    else
-        currentRun.hairTrigger = true
-        currentRun.startTime = nil
-        eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-        hairTriggerFrame:Show()
-        addon.StatusWindow:Reset()
-        addon.StatusWindow:SetTimeElapsed(0)
-    end
+    DiscardCurrentRun()
+    print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Current run dismissed. Use |cffffd300/dsr restart|r to restart.")
 end
 
 local ourRealm
@@ -514,6 +506,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         RecordPlayerLevel((...))
     end
 end)
+
+function addon:AttemptRunStart()
+    eventFrame:GetScript("OnEvent")(eventFrame, "PLAYER_ENTERING_WORLD")
+end
 
 if DBM then
     DBM:RegisterCallback("DBM_Pull", function(_, mod, delay)

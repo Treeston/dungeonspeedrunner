@@ -733,11 +733,15 @@ listener:SetScript("OnEvent", function(_, _, arg)
     AC:RegisterOptionsTable("DungeonSpeedRunner-Profile", LibStub("AceDBOptions-3.0"):GetOptionsTable(addon.db))
     ACD:AddToBlizOptions("DungeonSpeedRunner-Profile", "Profiles", "DungeonSpeedRunner")
     
-    _G.SlashCmdList["DSR"] = function()
-        InterfaceOptionsFrame:Show() -- force it to load first
-        InterfaceOptionsFrame_OpenToCategory(optionsRef) -- open to our category
-        if optionsRef.collapsed then -- expand our sub-categories
-            InterfaceOptionsListButton_ToggleSubCategories(optionsRefDummy)
+    _G.SlashCmdList["DSR"] = function(m)
+        if m:lower() == "restart" then
+            addon:AttemptRunStart()
+        else
+            InterfaceOptionsFrame:Show() -- force it to load first
+            InterfaceOptionsFrame_OpenToCategory(optionsRef) -- open to our category
+            if optionsRef.collapsed then -- expand our sub-categories
+                InterfaceOptionsListButton_ToggleSubCategories(optionsRefDummy)
+            end
         end
     end
         
