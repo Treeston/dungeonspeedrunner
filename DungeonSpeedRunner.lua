@@ -19,7 +19,13 @@ local function CurrentRunUpdateNames()
         compoundName = compoundName..": "..routeName
     end
     if currentRun.instanceDifficultyId ~= 1 then
-        compoundName = compoundName.." ("..currentRun.instanceDifficultyName..")"
+        local n = currentRun.instanceDifficultyName
+        local m = n:match("^%d+")
+        if m then
+            compoundName = compoundName.." ("..m..")"
+        else
+            compoundName = compoundName.." ("..n:sub(1,1)..")"
+        end
     end
 
     currentRun.chatName = compoundName
@@ -141,9 +147,8 @@ local function RecordAllGroupMembers()
     end
 end
 
-local function SetupCurrentRun(instanceMapId, instanceData)
-    local instanceName, _, difficultyId, difficultyName = GetInstanceInfo()
-    
+local function SetupCurrentRun(instanceName, difficultyId, difficultyName, currentMap, instanceData)
+
     currentRun = {
         instanceMapId = instanceMapId,
         instanceDifficultyId = difficultyId,
@@ -476,7 +481,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         end
     elseif event == "UPDATE_INSTANCE_INFO" then
         if currentRun then return end
-        local currentMap = (select(8, GetInstanceInfo()))
+        local instanceName, _, difficultyID, difficultyName, _, _, _, currentMap = GetInstanceInfo()
         local data = addon.InstanceData[currentMap]
         if not data then return end
         if type(data) == "string" then
@@ -489,7 +494,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             assert(type(data) == "table")
         end
         print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Detected |cffffd300%s|r -- waiting for combat"):format(data.name))
-        SetupCurrentRun(currentMap, data)
+        SetupCurrentRun(instanceName, difficultyID, difficultyName, currentMap, data)
     elseif event == "PLAYER_REGEN_ENABLED" then
         if currentRun and currentRun.isComplete then
             -- @todo remove statusWindow internals
