@@ -1,5 +1,10 @@
 local name,addon = ...
 
+local _G, tonumber, unpack, pairs, ipairs =
+      _G, tonumber, unpack, pairs, ipairs
+local LibStub, InterfaceOptionsFrame, InterfaceOptionsFrame_OpenToCategory, InterfaceOptionsListButton_ToggleSubCategories = 
+      LibStub, InterfaceOptionsFrame, InterfaceOptionsFrame_OpenToCategory, InterfaceOptionsListButton_ToggleSubCategories
+
 local LSM = LibStub("LibSharedMedia-3.0")
 local ACR = LibStub("AceConfigRegistry-3.0")
 function addon:RefreshOptionsDialog(which)

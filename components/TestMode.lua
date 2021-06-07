@@ -1,3 +1,6 @@
+local assert, select, print = assert, select, print
+local random = math.random
+
 local addon = (select(2, ...))
 
 local allowTestMode = true
@@ -24,16 +27,16 @@ local function TestModeStart()
     addon.StatusWindow:SetCurrentInstance("Test mode -- use |cffffd300/dsr|r for options!")
     addon.StatusWindow:SetCloseButtonCallback(closeCallback)
     
-    local t = math.random() * 15
+    local t = random() * 15
     local offs = 0
     for i=1,addon.opt.statusWindow.maxSplitCount do
-        t  = t + math.random()*8
-        offs = offs - 3 + math.random()*6
+        t  = t + random()*8
+        offs = offs - 3 + random()*6
         
         addon.StatusWindow:SetSplitComplete(splitname(i), t+offs, t)
     end
-    addon.StatusWindow:SetPendingSplit(splitname(addon.opt.statusWindow.maxSplitCount+1), t+offs+math.random()*12)
-    addon.StatusWindow:SetTimeElapsed(t+math.random()*12)
+    addon.StatusWindow:SetPendingSplit(splitname(addon.opt.statusWindow.maxSplitCount+1), t+offs+random()*12)
+    addon.StatusWindow:SetTimeElapsed(t+random()*12)
     addon.StatusWindow:SetRightClickOptionsEnabled(true)
     
     addon.StatusWindow:Show()

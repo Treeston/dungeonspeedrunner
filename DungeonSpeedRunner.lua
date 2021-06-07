@@ -1,10 +1,21 @@
+local _G, assert, pairs, ipairs, unpack, select, print, time, type =
+      _G, assert, pairs, ipairs, unpack, select, print, time, type
+local UnitClass, UnitName, UnitRace, UnitLevel, UnitExists, UnitAffectingCombat, UnitIsVisible, UnitPosition = 
+      UnitClass, UnitName, UnitRace, UnitLevel, UnitExists, UnitAffectingCombat, UnitIsVisible, UnitPosition
+local GetTime, GetNumGroupMembers, GetRaidRosterInfo, IsInGroup, IsInRaid, InCombatLockdown, IsInInstance = 
+      GetTime, GetNumGroupMembers, GetRaidRosterInfo, IsInGroup, IsInRaid, InCombatLockdown, IsInInstance
+local StaticPopup_Show, CombatLogGetCurrentEventInfo, GetNormalizedRealmName, GetNumSubgroupMembers, LoadAddOn = 
+      StaticPopup_Show, CombatLogGetCurrentEventInfo, GetNormalizedRealmName, GetNumSubgroupMembers, LoadAddOn
+local SendChatMessage, RequestRaidInfo, GetInstanceInfo, COMBATLOG_OBJECT_CONTROL_PLAYER = 
+      SendChatMessage, RequestRaidInfo, GetInstanceInfo, COMBATLOG_OBJECT_CONTROL_PLAYER
+local CanSpeakInGuildChat = C_GuildInfo.CanSpeakInGuildChat
+local band, bor, blshift = bit.band, bit.bor, bit.lshift
+local tinsert, tconcat, tremove = table.insert, table.concat, table.remove
+local floor = math.floor
+
 local addon = (select(2,...))
 
 _G.DungeonSpeedRunner = addon
-
-local band, bor, blshift = bit.band, bit.bor, bit.lshift
-local tinsert, tconcat = table.insert, table.concat
-local floor = math.floor
 
 local eventFrame = CreateFrame("Frame")
 
@@ -139,8 +150,8 @@ local function RecordAllGroupMembers()
     end
 end
 
-local function SetupCurrentRun(instanceName, difficultyId, difficultyName, currentMap, instanceData)
-
+local function SetupCurrentRun(instanceName, difficultyId, difficultyName, instanceMapId, instanceData)
+    assert(addon.InstanceData[instanceMapId] == instanceData)
     currentRun = {
         instanceMapId = instanceMapId,
         instanceDifficultyId = difficultyId,
@@ -303,8 +314,7 @@ end
 local function hairTriggerTest(puid,uid)
     if currentRun and currentRun.hairTrigger and UnitExists(puid) and UnitAffectingCombat(puid) then
         if not UnitIsVisible(puid) then
-            local _,_,currentMap = LibHBD:GetUnitWorldPosition(uid)
-            if currentMap ~= currentRun.instanceMapId then return end
+            if (select(4, UnitPosition(uid))) ~= currentRun.instanceMapId then return end
         end
         hairTriggerHit()
     end
@@ -351,7 +361,7 @@ function addon:DoAnnounce(channels, formatstring, ...)
                     channel = "PRINT"
                 end
             elseif channel == "GUILD" then
-                if not C_GuildInfo.CanSpeakInGuildChat() then
+                if not CanSpeakInGuildChat() then
                     channel = "NONE"
                 end
             end

@@ -1,3 +1,8 @@
+local assert, select, pairs, ipairs =
+      assert, select, pairs, ipairs
+local tsort = table.sort
+local CreateFrame, GameTooltip = CreateFrame, GameTooltip
+
 local addon = (select(2, ...))
 
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -41,7 +46,7 @@ end
 
 routeChoiceFrame.frames = {}
 function routeChoiceFrame:OfferChoice(currentRun, routes)
-    table.sort(routes)
+    tsort(routes)
     for i=1, #routes do
         local routeLabel = routes[i]
         local routeData = currentRun.instanceData.routes[routeLabel]

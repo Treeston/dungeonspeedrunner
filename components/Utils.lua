@@ -7,6 +7,7 @@ addon.EXCLUDE_BOTTOM = 0x8
 
 local pairs = pairs
 local tinsert, band = table.insert, bit.band
+local abs, floor = math.abs, math.floor
 
 function addon:CreateBackdropTextures(f, sides)
     sides = sides or 0

@@ -1,9 +1,9 @@
-local addon = (select(2,...))
-
-local assert, pairs, ipairs = assert, pairs, ipairs
-local GetTime = GetTime
+local _G, assert, pairs, ipairs, unpack, geterrorhandler = _G, assert, pairs, ipairs, unpack, geterrorhandler
+local CreateFrame, GetTime, UIParent, SlashCmdList = CreateFrame, GetTime, UIParent, SlashCmdList
 local tinsert, tremove, twipe = table.insert, table.remove, table.wipe
 local abs, floor = math.abs, math.floor
+
+local addon = (select(2,...))
 
 local currentRenderProps = {
     -- mainContentHeight

@@ -1,3 +1,6 @@
+local assert, pairs, type, ipairs, tostring = assert, pairs, type, ipairs, tostring
+local tinsert = table.insert
+
 local addon = (select(2,...))
 
 addon.InstanceData = {
