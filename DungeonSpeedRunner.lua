@@ -217,6 +217,7 @@ local function SetupCurrentRun(instanceName, difficultyId, difficultyName, insta
     if #possibleRoutes > 1 then -- @todo
         addon.RouteChoice:OfferChoice(currentRun, possibleRoutes)
     elseif #possibleRoutes == 0 then
+        print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: No available routes for %s (map %d) on %s difficulty (%d). This is likely a bug. You can try and see if |cffffd300/dsr restart|r starts the run properly."):format(instanceName, instanceMapId, difficultyName, difficultyId))
         DiscardCurrentRun()
     else
         SetCurrentRunRoute(currentRun, possibleRoutes[1])

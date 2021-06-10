@@ -1,4 +1,4 @@
-local DIFFICULTY_NORMAL = 0
+local DIFFICULTY_TBC_NORMAL = 173
 local DIFFICULTY_TBC_HEROIC = 174
 
 DungeonSpeedRunner:RegisterInstanceData(558, { -- Auchenai Crypts
@@ -340,7 +340,7 @@ DungeonSpeedRunner:RegisterInstanceData(540, { -- The Shattered Halls
         n = {
             name = nil,
             required = { "nethekurse", "omrogg", "bladefist" },
-            enabledDifficulties = { [DIFFICULTY_NORMAL] = true },
+            enabledDifficulties = { [DIFFICULTY_TBC_NORMAL] = true },
         },
         h = {
             name = nil,
