@@ -20,6 +20,7 @@ _G.DungeonSpeedRunner = addon
 local eventFrame = CreateFrame("Frame")
 
 local currentRun = nil
+local lastDiscard = nil
 local hairTriggerFrame = CreateFrame("Frame")
 
 local function CurrentRunUpdateNames()
@@ -100,6 +101,7 @@ local function DiscardCurrentRun()
     addon.StatusWindow:Reset()
     addon.StatusWindow:Hide()
     addon.RouteChoice:CloseChoice()
+    lastDiscard = currentRun
     currentRun = nil
     
     addon.TestMode:AllowTestMode()
@@ -472,6 +474,41 @@ local function UndoSplit(split)
     PredictNextSplit(split)
 end
 
+local hadRequest = false
+function addon:AttemptRunStart()
+    if not IsInInstance() then return false end
+    hadRequest = true
+    RequestRaidInfo()
+    return true
+end
+
+function addon:AttemptRunRestart()
+    lastDiscard = nil
+    return addon:AttemptRunStart()
+end
+
+_G.SlashCmdList["DSR"] = function(m)
+    m = m:lower()
+    if m == "restart" then
+        if not addon:AttemptRunRestart() then
+            print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Not in an instance")
+        end
+    elseif m == "debug" then
+        _G.DSR_CURRENT_RUN = currentRun
+        if currentRun then
+            print(("|cffffd300DSR|r debug: current run |cffffd300%s|r (mapId %d, difficultyId %d); inspect |cffff5000_G.DSR_CURRENT_RUN|r for more details"):format(currentRun.chatName, currentRun.instanceMapId, currentRun.instanceDifficultyId))
+        else
+            print("|cffffd300DSR|r debug: no current run")
+        end
+    else
+        addon:OpenOptionsPanel()
+    end
+end
+    
+_G.SLASH_DSR1 = "/dsr"
+_G.SLASH_DSR2 = "/dungeonspeedrunner"
+_G.SLASH_DSR3 = "/speedrun"
+
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
 eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -479,12 +516,12 @@ local hostileSubEvents = {SWING_DAMAGE=true,RANGE_DAMAGE=true,SPELL_DAMAGE=true,
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         if not ourRealm then ourRealm = GetNormalizedRealmName() end
-        if IsInInstance() then
-            RequestRaidInfo()
-        end
+        addon:AttemptRunStart()
     elseif event == "UPDATE_INSTANCE_INFO" then
-        if currentRun then return end
+        if not hadRequest then return end
+        hadRequest = false
         local instanceName, _, difficultyID, difficultyName, _, _, _, currentMap = GetInstanceInfo()
+        if currentRun and ((not currentRun.hairTrigger) or ((currentRun.instanceMapId == currentMap) and (currentRun.instanceDifficultyId == difficultyID))) then return end
         local data = addon.InstanceData[currentMap]
         if not data then return end
         if type(data) == "string" then
@@ -495,6 +532,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             end
             data = addon.InstanceData[currentMap]
             assert(type(data) == "table")
+        end
+        if lastDiscard and ((lastDiscard.instanceMapId == currentMap) and (lastDiscard.instanceDifficultyId == difficultyID)) then
+            print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Run for |cffffd300%s|r not started because you dismissed a run in this dungeon. Use |cffffd300/dsr restart|r to manually start."):format(data.name))
+            return
         end
         print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Detected |cffffd300%s|r -- waiting for combat"):format(data.name))
         SetupCurrentRun(instanceName, difficultyID, difficultyName, currentMap, data)
@@ -517,10 +558,6 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         RecordPlayerLevel((...))
     end
 end)
-
-function addon:AttemptRunStart()
-    eventFrame:GetScript("OnEvent")(eventFrame, "PLAYER_ENTERING_WORLD")
-end
 
 if DBM then
     DBM:RegisterCallback("DBM_Pull", function(_, mod, delay)
