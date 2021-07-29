@@ -17,6 +17,11 @@ local addon = (select(2,...))
 
 _G.DungeonSpeedRunner = addon
 
+local function IsInDungeon()
+    local t = (select(2, IsInInstance()))
+    return (t == "party") or (t == "raid")
+end
+
 local eventFrame = CreateFrame("Frame")
 
 local currentRun = nil
@@ -476,7 +481,7 @@ end
 
 local hadRequest = false
 function addon:AttemptRunStart()
-    if not IsInInstance() then return false end
+    if not IsInDungeon() then return false end
     hadRequest = true
     RequestRaidInfo()
     return true
@@ -512,15 +517,33 @@ _G.SLASH_DSR3 = "/speedrun"
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
 eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+local failCounter = 0
 local hostileSubEvents = {SWING_DAMAGE=true,RANGE_DAMAGE=true,SPELL_DAMAGE=true,SPELL_PERIODIC_DAMAGE=true,SWING_MISSED=true,SWING_ABSORBED=true,}
 eventFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         if not ourRealm then ourRealm = GetNormalizedRealmName() end
+        failCounter = 0
         addon:AttemptRunStart()
     elseif event == "UPDATE_INSTANCE_INFO" then
         if not hadRequest then return end
-        hadRequest = false
         local instanceName, _, difficultyID, difficultyName, _, _, _, currentMap = GetInstanceInfo()
+        if difficultyID == 0 then
+            failCounter = failCounter+1
+            if not IsInDungeon() then
+                hadRequest = false
+                return
+            end
+            
+            print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Got invalid difficulty for |cffffd300%s|r."):format(instanceName))
+            if failCounter < 5 then
+                print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Retrying (attempt %d/5)..."):format(failCounter+1))
+                RequestRaidInfo()
+            else
+                print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Giving up, sorry. Use |cffffd300/dsr restart|r to force another attempt.")
+            end
+            return
+        end
+        hadRequest = false
         if currentRun and ((not currentRun.hairTrigger) or ((currentRun.instanceMapId == currentMap) and (currentRun.instanceDifficultyId == difficultyID))) then return end
         local data = addon.InstanceData[currentMap]
         if not data then return end
