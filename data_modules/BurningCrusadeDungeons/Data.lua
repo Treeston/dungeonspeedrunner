@@ -117,11 +117,11 @@ DungeonSpeedRunner:RegisterInstanceData(557, { -- Mana-Tombs
             choiceName = "no Yor",
             required = { "pandemonius", "tavarok", "shaffar" },
         },
-        yor = {
+        --[[yor = {
             choiceName = "with Yor (Heroic only)",
             required = { "pandemonius", "tavarok", "shaffar", "yor" },
             enabledDifficulties = { [DIFFICULTY_TBC_HEROIC] = true },
-        },
+        },--]]
     },
 })
 
