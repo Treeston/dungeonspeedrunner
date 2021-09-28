@@ -100,4 +100,72 @@ DungeonSpeedRunner:RegisterInstanceData(565, { -- Gruul's Lair
     },
 })
 
+DungeonSpeedRunner:RegisterInstanceData(548, { -- Serpentshrine Cavern
+    version = 1,
+    
+    name = "Serpentshrine Cavern",
+    maxLevel = 70,
+    
+    bosses = {
+        hydross = {
+            name = "Hydross the Unstable",
+            dbmModId = "Hydross",
+        },
+        lurker = {
+            name = "The Lurker Below",
+            dbmModId = "LurkerBelow",
+        },
+        leotheras = {
+            name = "Leotheras the Blind",
+            dbmModId = "Leotheras",
+        },
+        fathomlord = {
+            name = "Fathom-Lord Karathress",
+            dbmModId = "Fathomlord",
+        },
+        morogrim = {
+            name = "Morogrim Tidewalker",
+            dbmModId = "Tidewalker",
+        },
+        vashj = {
+            name = "Lady Vashj",
+            dbmModId = "Vashj",
+        },
+    },
+    
+    routes = {
+        required = { "hydross", "lurker", "leotheras", "fathomlord", "morogrim", "vashj" },
+    },
+})
+
+DungeonSpeedRunner:RegisterInstanceData(550, { -- Tempest Keep
+    version = 1,
+    
+    name = "Tempest Keep",
+    maxLevel = 70,
+    
+    bosses = {
+        alar = {
+            name = "Al'ar",
+            dbmModId = "Alar",
+        },
+        loot = {
+            name = "Void Reaver",
+            dbmModId = "VoidReaver",
+        },
+        solarian = {
+            name = "High Astromancer Solarian",
+            dbmModId = "Solarian",
+        },
+        kael = {
+            name = "Kael'thas Sunstrider",
+            dbmModId = "KaelThas",
+        },
+    },
+    
+    routes = {
+        required = { "alar", "loot", "solarian", "kael" },
+    },
+})
+
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Raids|r!")
