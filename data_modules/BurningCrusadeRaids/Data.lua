@@ -58,6 +58,11 @@ DungeonSpeedRunner:RegisterInstanceData(532, { -- Karazhan
     routes = {
         required = { "attumen", "moroes", "maiden", "curator", "illhoof", "aran", "netherspite", "malchezaar" }
     },
+    
+    autoGossipNPCs = {
+        [16812] = true, -- Barnes
+        [17603] = true, -- Grandmother
+    },
 })
 
 DungeonSpeedRunner:RegisterInstanceData(544, { -- Magtheridon's Lair

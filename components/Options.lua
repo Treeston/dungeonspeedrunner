@@ -23,6 +23,7 @@ local defaults =
 {
     profile = {
         testMode = true,
+        autoAcceptGossips = false,
         
         announceTo = {
             bestSplit = { GROUP = true },
@@ -209,6 +210,17 @@ local options = {
                 addon.StatusWindow:SetMaxSplitCount(v)
                 addon.TestMode:RefreshTestModeSplits()
             end,
+        },
+        autoGossip={
+            name="Auto-confirm dungeon gossips",
+            desc="Automatically confirm certain dungeon progress gossips, such as |cffffd300Thrall|r's in |cffffd300Escape from Durnholde|r",
+            descStyle="inline",
+            width="full",
+            type="toggle",
+            order=7,
+            
+            get=function() return addon.opt.autoAcceptGossips end,
+            set=function(_,v) addon.opt.autoAcceptGossips = v end,
         },
     },
 }

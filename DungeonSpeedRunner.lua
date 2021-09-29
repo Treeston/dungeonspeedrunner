@@ -103,6 +103,7 @@ local function DiscardCurrentRun()
     eventFrame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     eventFrame:UnregisterEvent("GROUP_ROSTER_UPDATE")
     eventFrame:UnregisterEvent("PLAYER_LEVEL_UP")
+    eventFrame:UnregisterEvent("GOSSIP_SHOW")
     addon.StatusWindow:Reset()
     addon.StatusWindow:Hide()
     addon.RouteChoice:CloseChoice()
@@ -312,6 +313,7 @@ local function hairTriggerHit()
     end
     eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
     eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
+    eventFrame:RegisterEvent("GOSSIP_SHOW")
     
     currentRun.startTime = GetTime()
     addon.StatusWindow:ResetTimer()
@@ -574,6 +576,30 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             if currentRun.hairTrigger and (band(sourceFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) ~= band(targetFlags, COMBATLOG_OBJECT_CONTROL_PLAYER)) then
                 hairTriggerHit()
             end
+        end
+    elseif (event == "GOSSIP_SHOW") then
+        local idsToActivate = (currentRun and currentRun.instanceData and currentRun.instanceData.autoGossipNPCs)
+        if not idsToActivate then return end
+        
+        local guid = UnitGUID("npc")
+        if not guid then return end
+        
+        local npcId = tonumber((select(6, ("-"):split(guid))))
+        if not idsToActivate[npcId] then return end
+        if idsToActivate[npcId] ~= true then
+            if not idsToActivate[npcId][currentRun.instanceDifficultyId] then return end
+        end
+        
+        if GetNumGossipOptions() ~= 1 then return end
+        
+        if addon.opt.autoAcceptGossips then
+            if IsShiftKeyDown() then
+                print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Did not auto-start gossip dialog on |cffffd300%s|r since you are holding the shift key."):format((UnitName("npc"))))
+            else
+                SelectGossipOption(1)
+            end
+        else
+            print(("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Detected auto-startable gossip dialog on |cffffd300%s|r. You can enable this feature in the |cffffd300/dsr|r menu."):format((UnitName("npc"))))
         end
     elseif (event == "GROUP_ROSTER_UPDATE") then
         RecordAllGroupMembers()

@@ -231,6 +231,10 @@ DungeonSpeedRunner:RegisterInstanceData(269, { -- Black Morass
     routes = {
         required = { "aeonus", "deja", "temporus" },
     },
+    
+    autoGossipNPCs = {
+        [15608] = { [DIFFICULTY_TBC_HEROIC] = true }, -- Medivh
+    },
 })
 
 DungeonSpeedRunner:RegisterInstanceData(560, { -- Old Hillsbrad
@@ -256,6 +260,11 @@ DungeonSpeedRunner:RegisterInstanceData(560, { -- Old Hillsbrad
     
     routes = {
         required = { "drake", "skarloc", "baddragon" },
+    },
+    
+    autoGossipNPCs = {
+        [17876] = { [DIFFICULTY_TBC_HEROIC] = true }, -- Thrall
+        [18887] = true,                               -- Taretha
     },
 })
 
