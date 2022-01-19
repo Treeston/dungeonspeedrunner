@@ -351,12 +351,12 @@ hairTriggerFrame:SetScript("OnUpdate", function()
     end
 end)
 
-local BEST_COMPLETE = "%s complete in %s. This is a new record (%s)!"
-local WORSE_COMPLETE = "%s complete in %s. (%s compared to previous record.)"
+local BEST_COMPLETE = "%s complete in %s. This is a new record! (%s faster than previous)"
+local WORSE_COMPLETE = "%s complete in %s. (%s slower than the personal record.)"
 local FIRST_COMPLETE = "%s complete in %s. This is the first recorded run."
-local BEST_SPLIT = "%s: %s (%s)"
-local WORSE_SPLIT = "%s: %s (%s)"
-local FIRST_SPLIT = "%s: %s"
+local BEST_SPLIT = "%s complete after %s (%s faster than best!)"
+local WORSE_SPLIT = "%s complete after %s (%s slower than best)"
+local FIRST_SPLIT = "%s complete after %s"
 
 function addon:DoAnnounce(channels, formatstring, ...)
     local msg = formatstring:format(...)
@@ -416,21 +416,21 @@ local function SplitReached(split)
             addon:DoAnnounce(addon.opt.announceTo.bestRunComplete,
                 BEST_COMPLETE,
                 currentRun.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
-                addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime),
+                addon:FormatTimeForChat(compareTime-relativeTime)
             )
         elseif compareTime then
             addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
                 WORSE_COMPLETE,
                 currentRun.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
-                addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime),
+                addon:FormatTimeForChat(relativeTime-compareTime)
             )
         else
             addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
                 FIRST_COMPLETE,
                 currentRun.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime)
             )
         end
     else
@@ -440,21 +440,21 @@ local function SplitReached(split)
             addon:DoAnnounce(addon.opt.announceTo.bestSplit,
                 BEST_SPLIT,
                 splitData.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
-                addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime),
+                addon:FormatTimeForChat(compareTime-relativeTime)
             )
         elseif compareTime then
             addon:DoAnnounce(addon.opt.announceTo.anySplit,
                 WORSE_SPLIT,
                 splitData.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat),
-                addon:FormatChangeString(relativeTime-compareTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime),
+                addon:FormatTimeForChat(relativeTime-compareTime)
             )
         else
             addon:DoAnnounce(addon.opt.announceTo.anySplit,
                 FIRST_SPLIT,
                 splitData.chatName,
-                addon:FormatTimerString(relativeTime, addon.StatusWindow.longFormat)
+                addon:FormatTimeForChat(relativeTime)
             )
         end
     end

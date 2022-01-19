@@ -143,8 +143,8 @@ function addon:FormatTimerString(elapsed, longFormat)
     end
 end
 
-local __offset_formatstring1 = "%+02dh%02dm"
-local __offset_formatstring2 = "%+02d:%02d"
+local __offset_formatstring1 = "%s%02dh%02dm"
+local __offset_formatstring2 = "%s%02d:%02d"
 local __offset_formatstring3 = "%+05.2f"
 function addon:FormatChangeString(offset, longFormat)
     if offset == 0 then return "±0.00" end
@@ -152,10 +152,22 @@ function addon:FormatChangeString(offset, longFormat)
         return __offset_formatstring3:format(offset)
     end
     local absOffset = abs(offset)
-    local sgn = (offset/absOffset)
+    local sgn = (offset < 0) and "-" or "+"
     if 6000 <= absOffset then
-        return __offset_formatstring1:format(sgn*floor(absOffset/3600), floor((absOffset%3600)/60))
+        return __offset_formatstring1:format(sgn, floor(absOffset/3600), floor((absOffset%3600)/60))
     else
-        return __offset_formatstring2:format(sgn*floor(absOffset/60), floor(absOffset%60))
+        return __offset_formatstring2:format(sgn, floor(absOffset/60), floor(absOffset%60))
+    end
+end
+
+local __chat_formatstring1 = "%02d:%05.2f"
+local __chat_formatstring2 = "%02dh%02dm%02ds"
+function addon:FormatTimeForChat(sec)
+    if sec < 0 then return "???" end
+    
+    if sec <= 3600 then
+        return __chat_formatstring1:format(floor(sec/60), sec%60)
+    else
+        return __chat_formatstring2:format(floor(sec/3600), floor((sec%3600)/60), floor(sec%60))
     end
 end

@@ -55,6 +55,8 @@ addon.InstanceData = {
     [ 565] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Gruul's Lair
     [ 548] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Serpentshrine Cavern
     [ 550] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Tempest Keep
+    [ 564] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Black Temple
+    [ 534] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Mount Hyjal
 }
 
 local function ValidateRoutes(routesTable)

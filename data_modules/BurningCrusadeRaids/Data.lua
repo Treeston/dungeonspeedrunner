@@ -173,4 +173,84 @@ DungeonSpeedRunner:RegisterInstanceData(550, { -- Tempest Keep
     },
 })
 
+DungeonSpeedRunner:RegisterInstanceData(564, { -- Black Temple
+    version = 1,
+    
+    name = "Black Temple",
+    maxLevel = 70,
+    
+    bosses = {
+        najentus = {
+            name = "High Warlord Naj'entus",
+            dbmModId = "Najentus",
+        },
+        supremus = {
+            name = "Supremus",
+            dbmModId = "Supremus",
+        },
+        gorefiend = {
+            name = "Teron Gorefiend",
+            dbmModId = "TeronGorefiend",
+        },
+        gurtogg = {
+            name = "Gurtogg Bloodboil",
+            dbmModId = "Bloodboil",
+        },
+        reliquary = {
+            name = "Reliquary of Souls",
+            dbmModId = "Souls",
+        },
+        mother = {
+            name = "Mother Shahraz",
+            dbmModId = "Shahraz",
+        },
+        council = {
+            name = "Illidari Council",
+            dbmModId = "Council",
+        },
+        illidan = {
+            name = "Illidan Stormrage",
+            dbmModId = "Illidan",
+        },
+    },
+    
+    routes = {
+        required = { "najentus", "supremus", "gorefiend", "gurtogg", "reliquary", "mother", "council", "illidan" },
+    },
+})
+
+DungeonSpeedRunner:RegisterInstanceData(534, { -- CoT: Hyjal
+    version = 1,
+    
+    name = "CoT: Hyjal",
+    maxLevel = 70,
+    
+    bosses = {
+        winterchill = {
+            name = "Rage Winterchill",
+            dbmModId = "Rage",
+        },
+        anetheron = {
+            name = "Anetheron",
+            dbmModId = "Anetheron",
+        },
+        kazrogal = {
+            name = "Kaz'rogal",
+            dbmModId = "Kazrogal",
+        },
+        azgalor = {
+            name = "Azgalor",
+            dbmModId = "Azgalor",
+        },
+        archimonde = {
+            name = "Archimonde",
+            dbmModId = "Archimonde",
+        },
+    },
+    
+    routes = {
+        required = { "winterchill", "anetheron", "kazrogal", "azgalor", "archimonde" },
+    },
+})
+
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Raids|r!")
