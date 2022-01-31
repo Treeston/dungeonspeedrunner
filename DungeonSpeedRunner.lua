@@ -421,14 +421,14 @@ local function SplitReached(split)
                 BEST_COMPLETE,
                 currentRun.chatName,
                 addon:FormatTimeForChat(relativeTime),
-                addon:FormatTimeForChat(compareTime-relativeTime)
+                addon:FormatTimeForChat(compareTime-relativeTime, relativeTime)
             )
         elseif compareTime then
             addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
                 WORSE_COMPLETE,
                 currentRun.chatName,
                 addon:FormatTimeForChat(relativeTime),
-                addon:FormatTimeForChat(relativeTime-compareTime)
+                addon:FormatTimeForChat(relativeTime-compareTime, relativeTime)
             )
         else
             addon:DoAnnounce(addon.opt.announceTo.anyRunComplete,
@@ -445,14 +445,14 @@ local function SplitReached(split)
                 BEST_SPLIT,
                 splitData.chatName,
                 addon:FormatTimeForChat(relativeTime),
-                addon:FormatTimeForChat(compareTime-relativeTime)
+                addon:FormatTimeForChat(compareTime-relativeTime, relativeTime)
             )
         elseif compareTime then
             addon:DoAnnounce(addon.opt.announceTo.anySplit,
                 WORSE_SPLIT,
                 splitData.chatName,
                 addon:FormatTimeForChat(relativeTime),
-                addon:FormatTimeForChat(relativeTime-compareTime)
+                addon:FormatTimeForChat(relativeTime-compareTime, relativeTime)
             )
         else
             addon:DoAnnounce(addon.opt.announceTo.anySplit,

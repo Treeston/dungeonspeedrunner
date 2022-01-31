@@ -162,10 +162,10 @@ end
 
 local __chat_formatstring1 = "%02d:%05.2f"
 local __chat_formatstring2 = "%02dh%02dm%02ds"
-function addon:FormatTimeForChat(sec)
+function addon:FormatTimeForChat(sec, fmtSec)
     if sec < 0 then return "???" end
     
-    if sec <= 3600 then
+    if (fmtSec or sec) <= 3600 then
         return __chat_formatstring1:format(floor(sec/60), sec%60)
     else
         return __chat_formatstring2:format(floor(sec/3600), floor((sec%3600)/60), floor(sec%60))
