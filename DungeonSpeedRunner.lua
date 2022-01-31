@@ -99,7 +99,7 @@ local function SetCurrentRunRoute(runData, routeLabel)
     addon.StatusWindow:SetLongFormat(compareRun and (3600 <= compareRun.runTime))
 end
 
-local function DiscardCurrentRun()
+local function DiscardCurrentRun(quiet)
     eventFrame:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
     eventFrame:UnregisterEvent("GROUP_ROSTER_UPDATE")
     eventFrame:UnregisterEvent("PLAYER_LEVEL_UP")
@@ -107,7 +107,11 @@ local function DiscardCurrentRun()
     addon.StatusWindow:Reset()
     addon.StatusWindow:Hide()
     addon.RouteChoice:CloseChoice()
-    lastDiscard = currentRun
+    
+    if not quiet then
+        lastDiscard = currentRun
+    end
+    
     currentRun = nil
     
     addon.TestMode:AllowTestMode()
@@ -354,9 +358,9 @@ end)
 local BEST_COMPLETE = "%s complete in %s. This is a new record! (%s faster than previous)"
 local WORSE_COMPLETE = "%s complete in %s. (%s slower than the personal record.)"
 local FIRST_COMPLETE = "%s complete in %s. This is the first recorded run."
-local BEST_SPLIT = "%s complete after %s (%s faster than best!)"
-local WORSE_SPLIT = "%s complete after %s (%s slower than best)"
-local FIRST_SPLIT = "%s complete after %s"
+local BEST_SPLIT = "%s after %s (%s faster than best!)"
+local WORSE_SPLIT = "%s after %s (%s slower than best)"
+local FIRST_SPLIT = "%s after %s"
 
 function addon:DoAnnounce(channels, formatstring, ...)
     local msg = formatstring:format(...)
@@ -483,10 +487,9 @@ end
 
 local hadRequest = false
 function addon:AttemptRunStart()
-    if not IsInDungeon() then return false end
     hadRequest = true
     RequestRaidInfo()
-    return true
+    return IsInDungeon()
 end
 
 function addon:AttemptRunRestart()
@@ -533,6 +536,9 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             failCounter = failCounter+1
             if not IsInDungeon() then
                 hadRequest = false
+                if currentRun and currentRun.hairTrigger then
+                    DiscardCurrentRun(true)
+                end
                 return
             end
             
@@ -548,7 +554,10 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
         hadRequest = false
         if currentRun and ((not currentRun.hairTrigger) or ((currentRun.instanceMapId == currentMap) and (currentRun.instanceDifficultyId == difficultyID))) then return end
         local data = addon.InstanceData[currentMap]
-        if not data then return end
+        if not data then
+            if currentRun then DiscardCurrentRun(true) end
+            return
+        end
         if type(data) == "string" then
             local loaded, reason = LoadAddOn(data)
             if not loaded then
