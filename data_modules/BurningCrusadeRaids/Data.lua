@@ -217,6 +217,10 @@ DungeonSpeedRunner:RegisterInstanceData(564, { -- Black Temple
     routes = {
         required = { "najentus", "supremus", "gorefiend", "gurtogg", "reliquary", "mother", "council", "illidan" },
     },
+    
+    autoGossipNPCs = {
+        [23089] = true, -- Akama
+    },
 })
 
 DungeonSpeedRunner:RegisterInstanceData(534, { -- CoT: Hyjal
@@ -250,6 +254,12 @@ DungeonSpeedRunner:RegisterInstanceData(534, { -- CoT: Hyjal
     
     routes = {
         required = { "winterchill", "anetheron", "kazrogal", "azgalor", "archimonde" },
+    },
+    
+    autoGossipNPCs = {
+        [17772] = true, -- Jaina Proudmoore
+        [17852] = true, -- Thrall
+        [17948] = true, -- Tyrande Whisperwind
     },
 })
 
