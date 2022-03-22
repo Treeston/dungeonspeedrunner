@@ -57,6 +57,7 @@ addon.InstanceData = {
     [ 550] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Tempest Keep
     [ 564] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Black Temple
     [ 534] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Mount Hyjal
+    [ 568] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Zul'Aman
 }
 
 local function ValidateRoutes(routesTable)

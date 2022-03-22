@@ -263,4 +263,49 @@ DungeonSpeedRunner:RegisterInstanceData(534, { -- CoT: Hyjal
     },
 })
 
+DungeonSpeedRunner:RegisterInstanceData(568, { -- Zul'Aman
+    version = 1,
+    
+    name = "Zul'Aman",
+    maxLevel = 70,
+    
+    bosses = {
+        eagle = {
+            name = "Eagle (Akil'zon)",
+            dbmModId = "Akilzon",
+        },
+        bear = {
+            name = "Bear (Nalorakk)",
+            dbmModId = "Nalorakk",
+        },
+        dragonhawk = {
+            name = "Dragonhawk (Jan'alai)",
+            dbmModId = "Janalai",
+        },
+        lynx = {
+            name = "Lynx (Halazzi)",
+            dbmModId = "Halazzi",
+        },
+        malacrass = {
+            name = "Hex Lord Malacrass",
+            dbmModId = "Malacrass",
+        },
+        zuljin = {
+            name = "Zul'jin",
+            dbmModId = "ZulJin",
+        },
+    },
+    
+    routes = {
+        bear = {
+            choiceName = "Bear Run",
+            required = { "eagle", "bear", "dragonhawk", "lynx" },
+        },
+        full = {
+            choiceName = "Full",
+            required = { "eagle", "bear", "dragonhawk", "lynx", "malacrass", "zuljin" },
+        },
+    },
+})
+
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Raids|r!")

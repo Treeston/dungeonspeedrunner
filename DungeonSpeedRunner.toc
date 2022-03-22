@@ -1,4 +1,4 @@
-## Interface: 20503
+## Interface: 20504
 
 ## Title: D|cffff5000ungeon|rS|cffff5000peed|rR|cffff5000unner|r
 ## Notes: Speed-running timer for dungeons. Challenge yourself!
