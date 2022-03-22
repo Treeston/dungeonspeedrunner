@@ -302,11 +302,11 @@ DungeonSpeedRunner:RegisterInstanceData(568, { -- Zul'Aman
     
     routes = {
         bear = {
-            choiceName = "Bear Run",
+            name = "Bear Run",
             required = { "eagle", "bear", "dragonhawk", "lynx" },
         },
         full = {
-            choiceName = "Full",
+            name = "Full Clear",
             required = { "eagle", "bear", "dragonhawk", "lynx", "malacrass", "zuljin" },
         },
     },
