@@ -188,6 +188,10 @@ DungeonSpeedRunner:RegisterInstanceData(564, { -- Black Temple
             name = "Supremus",
             dbmModId = "Supremus",
         },
+        akama = {
+            name = "Shade of Akama",
+            dbmModId = "Akama",
+        },
         gorefiend = {
             name = "Teron Gorefiend",
             dbmModId = "TeronGorefiend",
