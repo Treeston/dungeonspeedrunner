@@ -310,6 +310,13 @@ DungeonSpeedRunner:RegisterInstanceData(568, { -- Zul'Aman
             required = { "eagle", "bear", "dragonhawk", "lynx", "malacrass", "zuljin" },
         },
     },
+    
+    autoGossipNPCs = {
+        [23999] = true, -- Harkor
+        [23790] = true, -- Tanzar
+        [24024] = true, -- Kraz
+        [24001] = true, -- Ashli
+    },
 })
 
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Raids|r!")
