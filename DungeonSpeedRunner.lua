@@ -35,7 +35,7 @@ local function CurrentRunUpdateNames()
     if routeName then
         compoundName = compoundName..": "..routeName
     end
-    if currentRun.instanceDifficultyId ~= 1 then
+    if currentRun.instanceDifficultyId ~= "5N" then
         local n = currentRun.instanceDifficultyName
         local m = n:match("^%d+")
         if m then
@@ -67,7 +67,7 @@ local function SetCurrentRunRoute(runData, routeLabel)
     assert(completionMask > 0)
     currentRun.completionMask = completionMask
     
-    local compareRun = addon.db.global.savedRuns[("%d:%d:%s"):format(currentRun.instanceMapId, currentRun.instanceDifficultyId, routeLabel)][1]
+    local compareRun = addon.db.global.savedRuns[("%d:%s:%s"):format(currentRun.instanceMapId, currentRun.instanceDifficultyId, routeLabel)][1]
     if compareRun then
         local compareMask = 0x0
         local compareIdx = {}
@@ -248,7 +248,7 @@ local function SaveCurrentRun()
     }
     
     -- savedRuns is always sorted (ascending run time)
-    local savedRuns = addon.db.global.savedRuns[("%d:%d:%s"):format(currentRun.instanceMapId, currentRun.instanceDifficultyId, currentRun.routeLabel)]
+    local savedRuns = addon.db.global.savedRuns[("%d:%s:%s"):format(currentRun.instanceMapId, currentRun.instanceDifficultyId, currentRun.routeLabel)]
     local i = 0            -- savedRuns[i].runTime <= runData.runTime
     local j = #savedRuns+1 -- runData.runTime < savedRuns[j].runTime
     while (j-i) > 1 do
@@ -506,7 +506,7 @@ _G.SlashCmdList["DSR"] = function(m)
     elseif m == "debug" then
         _G.DSR_CURRENT_RUN = currentRun
         if currentRun then
-            print(("|cffffd300DSR|r debug: current run |cffffd300%s|r (mapId %d, difficultyId %d); inspect |cffff5000_G.DSR_CURRENT_RUN|r for more details"):format(currentRun.chatName, currentRun.instanceMapId, currentRun.instanceDifficultyId))
+            print(("|cffffd300DSR|r debug: current run |cffffd300%s|r (mapId %d, difficultyId %s); inspect |cffff5000_G.DSR_CURRENT_RUN|r for more details"):format(currentRun.chatName, currentRun.instanceMapId, currentRun.instanceDifficultyId))
         else
             print("|cffffd300DSR|r debug: no current run")
         end
@@ -518,6 +518,20 @@ end
 _G.SLASH_DSR1 = "/dsr"
 _G.SLASH_DSR2 = "/dungeonspeedrunner"
 _G.SLASH_DSR3 = "/speedrun"
+
+function addon:GetOverrideDifficultyID(difficultyName)
+    if difficultyName == (GetDifficultyInfo(1)) then -- "Normal"
+        return "5N"
+    elseif difficultyName == (GetDifficultyInfo(2)) then -- "Heroic"
+        return "5HC"
+    elseif difficultyName == (GetDifficultyInfo(3)) then -- "10 Player"
+        return "10N"
+    elseif difficultyName == (GetDifficultyInfo(4)) then -- "25 Player"
+        return "25N"
+    elseif difficultyName == (GetDifficultyInfo(9)) then -- "40 Player"
+        return "40N"
+    end
+end
 
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:RegisterEvent("UPDATE_INSTANCE_INFO")
@@ -552,6 +566,7 @@ eventFrame:SetScript("OnEvent", function(self, event, ...)
             return
         end
         hadRequest = false
+        difficultyID = addon:GetOverrideDifficultyID(difficultyName) or tostring(difficultyID)
         if currentRun and ((not currentRun.hairTrigger) or ((currentRun.instanceMapId == currentMap) and (currentRun.instanceDifficultyId == difficultyID))) then return end
         local data = addon.InstanceData[currentMap]
         if not data then

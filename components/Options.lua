@@ -787,7 +787,34 @@ function addon:OnProfileEnable()
         end
         addon.opt.announce = nil
     end
-
+    
+    if not addon.db.global.hadOverrideUpdate then
+        local replacements = {}
+        for key in pairs(addon.db.global.savedRuns) do
+            local instanceMapId, instanceDifficultyId, routeLabel = key:match("^(%d+):(%d+):(.+)$")
+            if instanceMapId then
+                local overrideId = addon:GetOverrideDifficultyID((GetDifficultyInfo(tonumber(instanceDifficultyId))))
+                if overrideId then
+                    replacements[key] = ("%s:%s:%s"):format(instanceMapId, overrideId, routeLabel)
+                end
+            end
+        end
+        for key, replacement in pairs(replacements) do
+            local data = addon.db.global.savedRuns[key]
+            addon.db.global.savedRuns[key] = nil
+            local existing = addon.db.global.savedRuns[replacement]
+            if existing then
+                for _,v in ipairs(data) do
+                    table.insert(existing, v)
+                end
+                table.sort(existing, function(a,b) return a.runTime < b.runTime end)
+            else
+                addon.db.global.savedRuns[replacement] = data
+            end
+        end
+        addon.db.global.hadOverrideUpdate = true
+    end
+    
     -- sequencing matters here!!
 
     -- set uninteresting properties, none of these are dangerous

@@ -1,5 +1,5 @@
-local DIFFICULTY_TBC_NORMAL = 173
-local DIFFICULTY_TBC_HEROIC = 174
+local DIFFICULTY_TBC_NORMAL = "5N"
+local DIFFICULTY_TBC_HEROIC = "5HC"
 
 DungeonSpeedRunner:RegisterInstanceData(558, { -- Auchenai Crypts
     version = 1,
