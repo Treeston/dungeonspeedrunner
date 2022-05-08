@@ -319,4 +319,42 @@ DungeonSpeedRunner:RegisterInstanceData(568, { -- Zul'Aman
     },
 })
 
+DungeonSpeedRunner:RegisterInstanceData(580, { -- Sunwell Plateau
+    version = 1,
+    
+    name = "Sunwell Plateau",
+    maxLevel = 70,
+    
+    bosses = {
+        kalecgos = {
+            name = "Kalecgos",
+            dbmModId = "Kal",
+        },
+        brutallus = {
+            name = "Brutallus",
+            dbmModId = "Brutallus",
+        },
+        felmyst = {
+            name = "Felmyst",
+            dbmModId = "Felmyst",
+        },
+        twins = {
+            name = "Eredar Twins",
+            dbmModId = "Twins",
+        },
+        muru = {
+            name = "M'uru",
+            dbmModId = "Muru",
+        },
+        kiljaeden = {
+            name = "Kil'jaeden",
+            dbmModId = "Kil",
+        },
+    },
+    
+    routes = {
+        required = { "kalecgos", "brutallus", "felmyst", "twins", "muru", "kiljaeden" },
+    },
+})
+
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Raids|r!")
