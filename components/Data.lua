@@ -49,6 +49,7 @@ addon.InstanceData = {
     [ 552] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Arcatraz
     [ 553] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Botanica
     [ 554] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- The Mechanar
+    [ 585] = "DungeonSpeedRunner_BurningCrusadeDungeons", -- Magisters' Terrace
     
     [ 532] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Karazhan
     [ 544] = "DungeonSpeedRunner_BurningCrusadeRaids", -- Magtheridon's Lair

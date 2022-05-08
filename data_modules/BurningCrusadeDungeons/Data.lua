@@ -487,4 +487,34 @@ DungeonSpeedRunner:RegisterInstanceData(554, { -- The Mechanar
     },
 })
 
+DungeonSpeedRunner:RegisterInstanceData(585, { -- Magisters' Terrace
+    version = 1,
+    
+    name = "Magisters' Terrace",
+    maxLevel = 70,
+    
+    bosses = {
+        fireheart = {
+            name = "Selin Fireheart",
+            dbmModId = 530,
+        },
+        vexallus = {
+            name = "Vexallus",
+            dbmModId = 531,
+        },
+        delrissa = {
+            name = "Priestess Delrissa",
+            dbmModId = 532,
+        },
+        setback = {
+            name = "Kael'thas Sunstrider",
+            dbmModId = 533,
+        },
+    },
+    
+    routes = {
+        required = { "fireheart", "vexallus", "delrissa", "setback" },
+    },
+})
+
 print("|cffffd300D|r|cffff5000ungeon|r|cffffd300S|r|cffff5000peed|r|cffffd300R|r|cffff5000unner|r: Loaded data for |cffffd300Burning Crusade Dungeons|r!")
